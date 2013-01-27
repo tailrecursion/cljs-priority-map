@@ -1,4 +1,4 @@
-(defproject alandipert/cljs-priority-map "1.0.0"
+(defproject alandipert/cljs-priority-map "1.0.0-SNAPSHOT"
   :description "ClojureScript priority map implementation based on clojure.data.priority-map"
   :url "https://github.com/alandipert/cljs-priority-map"
   :license {:name "Eclipse Public License"
