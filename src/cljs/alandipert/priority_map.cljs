@@ -125,6 +125,19 @@
              meta
              nil))))))
 
+  ISorted
+  (-sorted-seq [this ascending?]
+    ((if ascending? seq rseq) this))
+  (-sorted-seq-from [this k ascending?]
+    (let [sets (if ascending?
+                 (subseq priority->set-of-items >= k)
+                 (rsubseq priority->set-of-items <= k))]
+      (seq (for [[priority item-set] sets, item item-set]
+             [item priority]))))
+  (-entry-key [this entry]
+    (val entry))
+  (-comparator [this] compare)
+
   IFn
   (-invoke [this item]
     (-lookup this item))
