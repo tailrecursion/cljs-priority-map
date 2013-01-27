@@ -125,7 +125,7 @@ p ;=> {:b 1, :a 2, :c 3, :f 3, :e 4, :d 5}
 
 ;; It is also possible to use a custom comparator:
 
-(priority-map-by (comparator >) :a 1 :b 2 :c 3) ;=> {:c 3, :b 2, :a 1}
+(priority-map-by > :a 1 :b 2 :c 3) ;=> {:c 3, :b 2, :a 1}
 ```
 
 ## Testing
