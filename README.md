@@ -116,7 +116,7 @@ p ;=> {:b 1, :a 2, :c 3, :f 3, :e 4, :d 5}
 
 (subseq p > 3) ;=> ([:e 4] [:d 5])
 
-;; seq of entries of priority  >= 3 but < 5:
+;; seq of entries of priority >= 3 but < 5:
 
 (subseq p >= 3 < 5) ;=> ([:c 3] [:f 3] [:e 4])
 
