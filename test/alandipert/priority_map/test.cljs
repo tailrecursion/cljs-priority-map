@@ -6,6 +6,7 @@
 
 (assert (= p {:a 2 :b 1 :c 3 :d 5 :e 4 :f 3}))
 (assert (= h p))
+(assert (= :b (first (peek (into (pm/priority-map) h)))))
 (assert (= (pm/priority-map 1 2) (pm/priority-map 1 2)))
 (assert (= (-hash p) (-hash {:a 2 :b 1 :c 3 :d 5 :e 4 :f 3})))
 (assert (= (assoc p :g 1) (assoc h :g 1)))

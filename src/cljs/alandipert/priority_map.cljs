@@ -117,12 +117,12 @@
             (PersistentPriorityMap.
              (dissoc priority->set-of-items priority)
              (dissoc item->priority item)
-             (meta this)
+             meta
              nil)
             (PersistentPriorityMap.
              (assoc priority->set-of-items priority (disj item-set item)),
              (dissoc item->priority item)
-             (meta this)
+             meta
              nil))))))
 
   IFn
