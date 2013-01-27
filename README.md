@@ -1,6 +1,6 @@
 # cljs-priority-map
 
-[![Under Construction](https://dl.dropbox.com/u/12379861/underconstruction.gif)]
+[![Under Construction Gifs](https://dl.dropbox.com/u/12379861/underconstruction.gif)](http://www.animatedgif.net/underconstruction/construction.shtml)
 
 *This library is currently under construction.  Code and documentation are subject to frequent change.*
 
@@ -126,6 +126,7 @@ p ;=> {:b 1, :a 2, :c 3, :f 3, :e 4, :d 5}
 ;; It is also possible to use a custom comparator:
 
 (priority-map-by (comparator >) :a 1 :b 2 :c 3) ;=> {:c 3, :b 2, :a 1}
+```
 
 ## Testing
 
