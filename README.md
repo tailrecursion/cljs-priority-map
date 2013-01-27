@@ -28,7 +28,7 @@ for Clojure.
 ;; Require or use alandipert.priority-map in your namespace.
 
 (ns your-ns
-  (:require [alandipert.priority-map :refer [priority-map])))
+  (:require [alandipert.priority-map :refer [priority-map priority-map-by])))
 
 ;; The standard way to construct a priority map is with priority-map:
 
