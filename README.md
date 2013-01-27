@@ -109,6 +109,17 @@ p ;=> {:b 1, :a 2, :c 3, :f 3, :e 4, :d 5}
 
 (rest p) ;=> ([:a 2] [:c 3] [:f 3] [:e 4] [:d 5])
 
+;; This implementation supports subseq for obtaining sorted seqs of
+;; entries for which one or two predicates are true.
+
+;; seq of entries of priority > 3:
+
+(subseq p > 3) ;=> ([:e 4] [:d 5])
+
+;; seq of entries of priority  >= 3 but < 5:
+
+(subseq p >= 3 < 5) ;=> ([:c 3] [:f 3] [:e 4])
+
 ;; Priority maps support metadata:
 
 (meta (with-meta p {:extra :info})) ;=> {:extra :info}
