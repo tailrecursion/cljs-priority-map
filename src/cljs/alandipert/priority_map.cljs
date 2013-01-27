@@ -59,7 +59,7 @@
       (let [f (first priority->set-of-items)]
         [(first (val f)) (key f)])))
   (-pop [this]
-    (if (empty this)
+    (if (empty? this)
       (throw (js/Error. "Can't pop empty priority map"))
       (let [f (first priority->set-of-items)
             item-set (val f)
