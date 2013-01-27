@@ -8,9 +8,9 @@
   :cljsbuild {:builds {:test
                        {:source-paths ["test"]
                         :compiler {:output-to "public/test.js"
-                                   ;; :optimizations :advanced
-                                   :optimizations :whitespace
-                                   :pretty-print true
+                                   :optimizations :advanced
+                                   ;; :optimizations :whitespace
+                                   ;; :pretty-print true
                                    }
                         :jar false}}
               :test-commands {"unit" ["phantomjs" "test/runner.js"]}})
