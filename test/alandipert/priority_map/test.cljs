@@ -53,4 +53,5 @@
 (assert (= (meta (empty (with-meta p {:x 123}))) {:x 123}))
 (assert (= (subseq p < 3) '([:b 1] [:a 2])))
 (assert (= (subseq p >= 4) '([:e 4] [:d 5])))
+(assert (= (subseq p >= 4 < 5) '([:e 4])))
 (.log js/console "__exit__")
