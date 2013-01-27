@@ -50,5 +50,6 @@
 (assert (= (pop p) {:a 2 :c 3 :f 3 :e 4 :d 5}))
 (assert (= (peek (pm/priority-map)) nil))
 (assert (= (seq (pm/priority-map-by > :a 1 :b 2 :c 3)) [[:c 3] [:b 2] [:a 1]]))
+(assert (= {:x 123} (meta (empty (with-meta p {:x 123})))))
 
 (.log js/console "__exit__")

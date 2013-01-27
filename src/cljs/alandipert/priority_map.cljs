@@ -2,8 +2,6 @@
   (:require [cljs.core :as core])
   (:require-macros [cljs.core :as coreclj]))
 
-(declare EMPTY)
-
 (deftype PersistentPriorityMap [priority->set-of-items item->priority meta ^:mutable __hash]
   Object
   (toString [this]
@@ -23,7 +21,9 @@
       (reduce -conj this entry)))
 
   IEmptyableCollection
-  (-empty [this] EMPTY)
+  (-empty [this] (with-meta
+                   alandipert.priority-map.PersistentPriorityMap/EMPTY
+                   meta))
 
   IEquiv
   (-equiv [this other]
