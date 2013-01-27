@@ -44,6 +44,8 @@
 (assert (= (first p) [:b 1]))
 (assert (= (rest p) '([:a 2] [:c 3] [:f 3] [:e 4] [:d 5])))
 (assert (= (meta (with-meta p {:extra :info})) {:extra :info}))
+(assert (= (meta (dissoc (with-meta p {:extra :info}) :a)) {:extra :info}))
+(assert (= (meta (assoc (with-meta p {:extra :info}) :g 0)) {:extra :info}))
 (assert (= (peek p) [:b 1]))
 (assert (= (pop p) {:a 2 :c 3 :f 3 :e 4 :d 5}))
 (assert (= (peek (pm/priority-map)) nil))
