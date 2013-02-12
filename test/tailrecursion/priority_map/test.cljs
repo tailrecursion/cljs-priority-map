@@ -1,5 +1,5 @@
-(ns alandipert.priority-map.test
-  (:require [alandipert.priority-map :as pm]))
+(ns tailrecursion.priority-map.test
+  (:require [tailrecursion.priority-map :as pm]))
 
 (def p (pm/priority-map :a 2 :b 1 :c 3 :d 5 :e 4 :f 3))
 (def h {:a 2 :b 1 :c 3 :d 5 :e 4 :f 3})

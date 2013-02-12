@@ -1,4 +1,4 @@
-(ns alandipert.priority-map
+(ns tailrecursion.priority-map
   (:require [cljs.core :as core])
   (:require-macros [cljs.core :as coreclj]))
 
@@ -22,7 +22,7 @@
 
   IEmptyableCollection
   (-empty [this] (with-meta
-                   alandipert.priority-map.PersistentPriorityMap/EMPTY
+                   tailrecursion.priority-map.PersistentPriorityMap/EMPTY
                    meta))
 
   IEquiv
@@ -144,7 +144,7 @@
   (-invoke [this item not-found]
     (-lookup this item not-found)))
 
-(set! alandipert.priority-map.PersistentPriorityMap/EMPTY
+(set! tailrecursion.priority-map.PersistentPriorityMap/EMPTY
       (PersistentPriorityMap. (sorted-map) {} {} nil))
 
 (defn- pm-empty-by [comparator]
@@ -154,7 +154,7 @@
   "keyval => key val
   Returns a new priority map with supplied mappings."
   ([& keyvals]
-     (loop [in (seq keyvals) out alandipert.priority-map.PersistentPriorityMap/EMPTY]
+     (loop [in (seq keyvals) out tailrecursion.priority-map.PersistentPriorityMap/EMPTY]
        (if in
          (recur (nnext in) (assoc out (first in) (second in)))
          out))))

@@ -1,34 +1,28 @@
-# cljs-priority-map
+# cljs-priority-map [![Build Status](https://travis-ci.org/tailrecursion/cljs-priority-map.png?branch=master)](https://travis-ci.org/tailrecursion/cljs-priority-map)
 
-[![Under Construction Gifs](https://dl.dropbox.com/u/12379861/underconstruction.gif)](http://www.animatedgif.net/underconstruction/construction.shtml)
-
-*This library is currently under construction.  Code and documentation are subject to frequent change.*
+This is a ClojureScript port of Mark Engelberg's
+[clojure.data.priority-map](https://github.com/clojure/data.priority-map)
+for Clojure.
 
 A priority map is very similar to a sorted map, but whereas a sorted
 map produces a sequence of the entries sorted by key, a priority map
 produces the entries sorted by value.
-
-This implementation is a ClojureScript port of Mark Engelberg's
-[clojure.data.priority-map](https://github.com/clojure/data.priority-map)
-for Clojure.
-
-[![Build Status](https://travis-ci.org/alandipert/cljs-priority-map.png?branch=master)](https://travis-ci.org/alandipert/cljs-priority-map)
 
 ## Usage
 
 ### Dependency
 
 ```clojure
-[alandipert/cljs-priority-map "1.0.0-SNAPSHOT"]
+[tailrecursion/cljs-priority-map "1.0.0"]
 ```
 
 ### Example
 
 ```clojure
-;; Require or use alandipert.priority-map in your namespace.
+;; Require or use tailrecursion.priority-map in your namespace.
 
 (ns your-ns
-  (:require [alandipert.priority-map :refer [priority-map priority-map-by])))
+  (:require [tailrecursion.priority-map :refer [priority-map priority-map-by])))
 
 ;; The standard way to construct a priority map is with priority-map:
 
