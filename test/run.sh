@@ -19,5 +19,5 @@ run_ff() {
     done
 }
 
-# run_phantom
+run_phantom
 run_ff
