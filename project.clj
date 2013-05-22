@@ -9,5 +9,4 @@
                        {:source-paths ["test"]
                         :compiler {:output-to "public/test.js"
                                    :optimizations :advanced}
-                        :jar false}}
-              :test-commands {"unit" ["phantomjs" "test/runner.js"]}})
+                        :jar false}}})

@@ -1,6 +1,17 @@
 (ns tailrecursion.priority-map.test
   (:require [tailrecursion.priority-map :as pm]))
 
+(set! cljs.core/*print-fn*
+      (if (undefined? (aget js/window "dump"))
+        ;; phantomjs
+        #(.apply (.-log js/console)
+                 (.-console js/window)
+                 (apply array %&))
+        ;; firefox
+        #(.apply (aget js/window "dump")
+                 js/window
+                 (apply array %&))))
+
 (def p (pm/priority-map :a 2 :b 1 :c 3 :d 5 :e 4 :f 3))
 (def h {:a 2 :b 1 :c 3 :d 5 :e 4 :f 3})
 
@@ -54,4 +65,18 @@
 (assert (= (subseq p < 3) '([:b 1] [:a 2])))
 (assert (= (subseq p >= 4) '([:e 4] [:d 5])))
 (assert (= (subseq p >= 4 < 5) '([:e 4])))
-(.log js/console "__exit__")
+
+;;; perf
+
+(time
+ (loop [p2 (apply pm/priority-map (range 100000))]
+   (when-not (empty? p2)
+     (recur (pop p2)))))
+
+(time
+ (loop [p2 (apply pm/priority-map (range 100000))]
+   (when-not (empty? p2)
+     (peek p2)
+     (recur (pop p2)))))
+
+(println "Done.")
