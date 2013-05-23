@@ -68,15 +68,40 @@
 
 ;;; perf
 
-(time
- (loop [p2 (apply pm/priority-map (range 100000))]
-   (when-not (empty? p2)
-     (recur (pop p2)))))
+(dotimes [_ 10]
+  (time
+   (loop [p2 (apply pm/priority-map (range 10000))]
+     (when-not (empty? p2)
+       (recur (pop p2))))))
 
-(time
- (loop [p2 (apply pm/priority-map (range 100000))]
-   (when-not (empty? p2)
-     (peek p2)
-     (recur (pop p2)))))
+(dotimes [_ 10]
+  (time
+   (loop [p2 (apply pm/priority-map (range 10000))]
+     (when-not (empty? p2)
+       (peek p2)
+       (recur (pop p2))))))
+
+;; (def basis (atom 0))
+
+;; (defn gstr []
+;;   (str "g__" (swap! basis inc)))
+
+;; (defn bigmap [n]
+;;   (reduce merge
+;;           (take (* 100 n)
+;;                 (repeatedly #(reduce
+;;                               (fn [xs k] {k xs})
+;;                               (take (* 10 n) (repeatedly gstr)))))))
+
+;; (def bm1 (bigmap 3))
+
+;; (reset! basis 0)
+
+;; (def bm2 (bigmap 3))
+
+;; (time
+;;  (dotimes [_ 10]
+;;    (println (= bm1 bm2))))
+
 
 (println "Done.")

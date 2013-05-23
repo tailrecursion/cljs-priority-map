@@ -55,11 +55,11 @@
 
   IStack
   (-peek [this]
-    (when-not (empty? this)
+    (when-not (zero? (count item->priority))
       (let [f (first priority->set-of-items)]
         [(first (val f)) (key f)])))
   (-pop [this]
-    (if (empty? this)
+    (if (zero? (count item->priority))
       (throw (js/Error. "Can't pop empty priority map"))
       (let [f (first priority->set-of-items)
             item-set (val f)
