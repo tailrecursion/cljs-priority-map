@@ -1,11 +1,14 @@
 (ns tailrecursion.priority-map
   (:require [cljs.core :as core])
+  (:use [cljs.reader :only [register-tag-parser!
+                            reader-error]])
   (:require-macros [cljs.core :as coreclj]))
 
 (deftype PersistentPriorityMap [priority->set-of-items item->priority meta ^:mutable __hash]
-  Object
-  (toString [this]
-    (str (seq this)))
+  IPrintWithWriter
+  (-pr-writer [coll writer opts]
+    (let [pr-pair (fn [keyval] (pr-sequential-writer writer pr-writer "" " " "" opts keyval))]
+      (pr-sequential-writer writer pr-pair "#priority-map {" ", " "}" opts coll)))
 
   IWithMeta
   (-with-meta [this meta]
@@ -149,6 +152,13 @@
 
 (defn- pm-empty-by [comparator]
   (PersistentPriorityMap. (sorted-map-by comparator) {} {} nil))
+
+(defn- read-priority-map [elems]
+  (if (map? elems)
+    (into tailrecursion.priority-map.PersistentPriorityMap/EMPTY elems)
+    (reader-error nil "Priority map literal expects a map for its elements.")))
+
+(register-tag-parser! "priority-map" read-priority-map)
 
 (defn priority-map
   "keyval => key val
