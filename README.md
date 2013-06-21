@@ -13,7 +13,7 @@ produces the entries sorted by value.
 ### Dependency
 
 ```clojure
-[tailrecursion/cljs-priority-map "1.0.1"]
+[tailrecursion/cljs-priority-map "1.0.2"]
 ```
 
 ### Example
