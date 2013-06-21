@@ -8,7 +8,7 @@
   IPrintWithWriter
   (-pr-writer [coll writer opts]
     (let [pr-pair (fn [keyval] (pr-sequential-writer writer pr-writer "" " " "" opts keyval))]
-      (pr-sequential-writer writer pr-pair "#priority-map {" ", " "}" opts coll)))
+      (pr-sequential-writer writer pr-pair "#tailrecursion.priority-map {" ", " "}" opts coll)))
 
   IWithMeta
   (-with-meta [this meta]
@@ -158,7 +158,7 @@
     (into tailrecursion.priority-map.PersistentPriorityMap/EMPTY elems)
     (reader-error nil "Priority map literal expects a map for its elements.")))
 
-(register-tag-parser! "priority-map" read-priority-map)
+(register-tag-parser! "tailrecursion.priority-map" read-priority-map)
 
 (defn priority-map
   "keyval => key val
