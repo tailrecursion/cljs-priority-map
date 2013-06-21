@@ -1,5 +1,6 @@
 (ns tailrecursion.priority-map.test
-  (:require [tailrecursion.priority-map :as pm]))
+  (:require [tailrecursion.priority-map :as pm]
+            [cljs.reader :refer [read-string]]))
 
 (set! cljs.core/*print-fn*
       (if (undefined? (aget js/window "dump"))
@@ -65,6 +66,10 @@
 (assert (= (subseq p < 3) '([:b 1] [:a 2])))
 (assert (= (subseq p >= 4) '([:e 4] [:d 5])))
 (assert (= (subseq p >= 4 < 5) '([:e 4])))
+
+;;; printing, reader
+
+(assert (= p (read-string (pr-str p))))
 
 ;;; perf
 
