@@ -1,4 +1,4 @@
-(defproject tailrecursion/cljs-priority-map "1.0.2"
+(defproject tailrecursion/cljs-priority-map "1.0.3"
   :description "ClojureScript priority map implementation based on clojure.data.priority-map"
   :url "https://github.com/tailrecursion/cljs-priority-map"
   :license {:name "Eclipse Public License"
@@ -7,6 +7,7 @@
   :plugins [[lein-cljsbuild "0.3.0"]]
   :cljsbuild {:builds {:test
                        {:source-paths ["test"]
+                        :dependencies [[org.clojure/clojurescript "0.0-1934"]]
                         :compiler {:output-to "public/test.js"
                                    :optimizations :advanced}
                         :jar false}}})

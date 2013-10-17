@@ -25,7 +25,7 @@
 
   IEmptyableCollection
   (-empty [this] (with-meta
-                   tailrecursion.priority-map.PersistentPriorityMap/EMPTY
+                   tailrecursion.priority-map.PersistentPriorityMap.EMPTY
                    meta))
 
   IEquiv
@@ -147,7 +147,7 @@
   (-invoke [this item not-found]
     (-lookup this item not-found)))
 
-(set! tailrecursion.priority-map.PersistentPriorityMap/EMPTY
+(set! tailrecursion.priority-map.PersistentPriorityMap.EMPTY
       (PersistentPriorityMap. (sorted-map) {} {} nil))
 
 (defn- pm-empty-by [comparator]
@@ -155,7 +155,7 @@
 
 (defn- read-priority-map [elems]
   (if (map? elems)
-    (into tailrecursion.priority-map.PersistentPriorityMap/EMPTY elems)
+    (into tailrecursion.priority-map.PersistentPriorityMap.EMPTY elems)
     (reader-error nil "Priority map literal expects a map for its elements.")))
 
 (register-tag-parser! "tailrecursion.priority-map" read-priority-map)
@@ -164,7 +164,7 @@
   "keyval => key val
   Returns a new priority map with supplied mappings."
   ([& keyvals]
-     (loop [in (seq keyvals) out tailrecursion.priority-map.PersistentPriorityMap/EMPTY]
+     (loop [in (seq keyvals) out tailrecursion.priority-map.PersistentPriorityMap.EMPTY]
        (if in
          (recur (nnext in) (assoc out (first in) (second in)))
          out))))
