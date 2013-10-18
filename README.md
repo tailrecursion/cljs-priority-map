@@ -1,7 +1,6 @@
-# cljs-priority-map [![Build Status](https://travis-ci.org/tailrecursion/cljs-priority-map.png?branch=master)](https://travis-ci.org/tailrecursion/cljs-priority-map)
+# cljs-priority-map [![Build Status][1]][2]
 
-This is a ClojureScript port of Mark Engelberg's
-[clojure.data.priority-map](https://github.com/clojure/data.priority-map)
+This is a ClojureScript port of Mark Engelberg's [clojure.data.priority-map][3]
 for Clojure.
 
 A priority map is very similar to a sorted map, but whereas a sorted
@@ -12,8 +11,18 @@ produces the entries sorted by value.
 
 ### Dependency
 
+Artifacts are published on [Clojars][4].
+
 ```clojure
 [tailrecursion/cljs-priority-map "1.0.3"]
+```
+
+```xml
+<dependency>
+  <groupId>tailrecursion</groupId>
+  <artifactId>cljs-priority-map</artifactId>
+  <version>1.0.3</version>
+</dependency>
 ```
 
 ### Example
@@ -145,3 +154,8 @@ installed, you can run the tests like so:
 Copyright © 2013 Alan Dipert
 
 Distributed under the Eclipse Public License, the same as Clojure.
+
+[1]: https://travis-ci.org/tailrecursion/cljs-priority-map.png?branch=master
+[2]: https://travis-ci.org/tailrecursion/cljs-priority-map
+[3]: https://github.com/clojure/data.priority-map
+[4]: https://clojars.org/tailrecursion/cljs-priority-map
