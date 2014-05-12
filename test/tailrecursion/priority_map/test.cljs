@@ -67,6 +67,17 @@
 (assert (= (subseq p >= 4) '([:e 4] [:d 5])))
 (assert (= (subseq p >= 4 < 5) '([:e 4])))
 
+(def pk (pm/priority-map-keyfn :order :a {:order 2} :b {:order 1} :c {:order 3}))
+
+(assert (= (seq pk) [[:b {:order 1}] [:a {:order 2}] [:c {:order 3}]]))
+(assert (= (subseq pk > 1) '([:a {:order 2}] [:c {:order 3}])))
+(assert (= (rsubseq pk < 3) '([:a {:order 2}] [:b {:order 1}])))
+
+(def pkb (pm/priority-map-keyfn-by :order > :a {:order 2} :b {:order 1} :c {:order 3}))
+(assert (= (seq pkb) [[:c {:order 3}] [:a {:order 2}] [:b {:order 1}]]))
+(assert (= (rsubseq pkb < 1) '([:a {:order 2}] [:c {:order 3}])))
+(assert (= (subseq pkb > 3) '([:a {:order 2}] [:b {:order 1}])))
+
 ;;; printing, reader
 
 (assert (= p (read-string (pr-str p))))

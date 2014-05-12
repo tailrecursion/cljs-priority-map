@@ -4,7 +4,7 @@
                             reader-error]])
   (:require-macros [cljs.core :as coreclj]))
 
-(deftype PersistentPriorityMap [priority->set-of-items item->priority meta ^:mutable __hash]
+(deftype PersistentPriorityMap [priority->set-of-items item->priority meta keyfn ^:mutable __hash]
   IPrintWithWriter
   (-pr-writer [coll writer opts]
     (let [pr-pair (fn [keyval] (pr-sequential-writer writer pr-writer "" " " "" opts keyval))]
@@ -12,7 +12,7 @@
 
   IWithMeta
   (-with-meta [this meta]
-    (PersistentPriorityMap. priority->set-of-items item->priority meta __hash))
+    (PersistentPriorityMap. priority->set-of-items item->priority meta keyfn __hash))
 
   IMeta
   (-meta [this] meta)
@@ -38,13 +38,19 @@
 
   ISeqable
   (-seq [this]
-    (seq (for [[priority item-set] priority->set-of-items, item item-set]
-           [item priority])))
+    (if keyfn
+      (seq (for [[priority item-set] priority->set-of-items, item item-set]
+             [item (item->priority item)]))
+      (seq (for [[priority item-set] priority->set-of-items, item item-set]
+             [item priority]))))
 
   IReversible
   (-rseq [coll]
-    (seq (for [[priority item-set] (rseq priority->set-of-items), item item-set]
-           [item priority])))
+    (if keyfn
+      (seq (for [[priority item-set] (rseq priority->set-of-items), item item-set]
+             [item (item->priority item)]))
+      (seq (for [[priority item-set] (rseq priority->set-of-items), item item-set]
+             [item priority]))))
 
   ICounted
   (-count [this]
@@ -59,25 +65,30 @@
   IStack
   (-peek [this]
     (when-not (zero? (count item->priority))
-      (let [f (first priority->set-of-items)]
-        [(first (val f)) (key f)])))
+      (let [f (first priority->set-of-items)
+            item (first (val f))]
+        (if keyfn
+          [item (item->priority item)]
+          [item (key f)]))))
   (-pop [this]
     (if (zero? (count item->priority))
       (throw (js/Error. "Can't pop empty priority map"))
       (let [f (first priority->set-of-items)
             item-set (val f)
             item (first item-set)
-            priority (key f)]
+            priority-key (key f)]
         (if (= (count item-set) 1)
           (PersistentPriorityMap.
-           (dissoc priority->set-of-items priority)
+           (dissoc priority->set-of-items priority-key)
            (dissoc item->priority item)
            meta
+           keyfn
            nil)
           (PersistentPriorityMap.
-           (assoc priority->set-of-items priority (disj item-set item)),
+           (assoc priority->set-of-items priority-key (disj item-set item)),
            (dissoc item->priority item)
            meta
+           keyfn
            nil)))))
 
   IAssociative
@@ -85,27 +96,33 @@
     (if-let [current-priority (get item->priority item nil)]
       (if (= current-priority priority)
         this
-        (let [item-set (get priority->set-of-items current-priority)]
+        (let [priority-key (keyfn priority)
+              current-priority-key (keyfn current-priority)
+              item-set (get priority->set-of-items current-priority-key)]
           (if (= (count item-set) 1)
             (PersistentPriorityMap.
-             (assoc (dissoc priority->set-of-items current-priority)
-               priority (conj (get priority->set-of-items priority #{}) item))
+             (assoc (dissoc priority->set-of-items current-priority-key)
+               priority-key (conj (get priority->set-of-items priority-key #{}) item))
              (assoc item->priority item priority)
              meta
+             keyfn
              nil)
             (PersistentPriorityMap.
              (assoc priority->set-of-items
-               current-priority (disj (get priority->set-of-items current-priority) item)
-               priority (conj (get priority->set-of-items priority #{}) item))
+               current-priority (disj (get priority->set-of-items current-priority-key) item)
+               priority (conj (get priority->set-of-items priority-key #{}) item))
              (assoc item->priority item priority)
              meta
+             keyfn
              nil))))
-      (PersistentPriorityMap.
-       (assoc priority->set-of-items
-         priority (conj (get priority->set-of-items priority #{}) item))
-       (assoc item->priority item priority)
-       meta
-       nil)))
+      (let [priority-key (keyfn priority)]
+        (PersistentPriorityMap.
+         (assoc priority->set-of-items
+           priority-key (conj (get priority->set-of-items priority-key #{}) item))
+         (assoc item->priority item priority)
+         meta
+         keyfn
+         nil))))
 
   (-contains-key? [this item]
     (contains? item->priority item))
@@ -115,17 +132,20 @@
     (let [priority (item->priority item ::not-found)]
       (if (= priority ::not-found)
         this
-        (let [item-set (priority->set-of-items priority)]
+        (let [priority-key (keyfn priority)
+              item-set (priority->set-of-items priority-key)]
           (if (= (count item-set) 1)
             (PersistentPriorityMap.
-             (dissoc priority->set-of-items priority)
+             (dissoc priority->set-of-items priority-key)
              (dissoc item->priority item)
              meta
+             keyfn
              nil)
             (PersistentPriorityMap.
-             (assoc priority->set-of-items priority (disj item-set item)),
+             (assoc priority->set-of-items priority-key (disj item-set item)),
              (dissoc item->priority item)
              meta
+             keyfn
              nil))))))
 
   ISorted
@@ -135,10 +155,13 @@
     (let [sets (if ascending?
                  (subseq priority->set-of-items >= k)
                  (rsubseq priority->set-of-items <= k))]
-      (seq (for [[priority item-set] sets, item item-set]
-             [item priority]))))
+      (if keyfn
+        (seq (for [[priority item-set] sets, item item-set]
+               [item (item->priority item)]))
+        (seq (for [[priority item-set] sets, item item-set]
+               [item priority])))))
   (-entry-key [this entry]
-    (val entry))
+    (keyfn (val entry)))
   (-comparator [this] compare)
 
   IFn
@@ -148,10 +171,14 @@
     (-lookup this item not-found)))
 
 (set! tailrecursion.priority-map.PersistentPriorityMap.EMPTY
-      (PersistentPriorityMap. (sorted-map) {} {} nil))
+      (PersistentPriorityMap. (sorted-map) {} {} identity nil))
 
 (defn- pm-empty-by [comparator]
-  (PersistentPriorityMap. (sorted-map-by comparator) {} {} nil))
+  (PersistentPriorityMap. (sorted-map-by comparator) {} {} identity nil))
+
+(defn- pm-empty-keyfn
+  ([keyfn] (PersistentPriorityMap. (sorted-map) {} {} keyfn nil))
+  ([keyfn comparator] (PersistentPriorityMap. (sorted-map-by comparator) {} {} keyfn nil)))
 
 (defn- read-priority-map [elems]
   (if (map? elems)
@@ -175,6 +202,26 @@
   mappings, using the supplied comparator."
   ([comparator & keyvals]
      (loop [in (seq keyvals) out (pm-empty-by comparator)]
+       (if in
+         (recur (nnext in) (assoc out (first in) (second in)))
+         out))))
+
+(defn priority-map-keyfn
+  "keyval => key val
+  Returns a new priority map with supplied
+  mappings, using the supplied keyfn."
+  ([keyfn & keyvals]
+     (loop [in (seq keyvals) out (pm-empty-keyfn keyfn)]
+       (if in
+         (recur (nnext in) (assoc out (first in) (second in)))
+         out))))
+
+(defn priority-map-keyfn-by
+  "keyval => key val
+  Returns a new priority map with supplied
+  mappings, using the supplied keyfn and comparator."
+  ([keyfn comparator & keyvals]
+     (loop [in (seq keyvals) out (pm-empty-keyfn keyfn comparator)]
        (if in
          (recur (nnext in) (assoc out (first in) (second in)))
          out))))
