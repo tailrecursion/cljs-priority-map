@@ -14,14 +14,14 @@ produces the entries sorted by value.
 Artifacts are published on [Clojars][4].
 
 ```clojure
-[tailrecursion/cljs-priority-map "1.0.3"]
+[tailrecursion/cljs-priority-map "1.1.0"]
 ```
 
 ```xml
 <dependency>
   <groupId>tailrecursion</groupId>
   <artifactId>cljs-priority-map</artifactId>
-  <version>1.0.3</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
