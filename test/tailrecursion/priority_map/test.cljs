@@ -72,6 +72,7 @@
 (assert (= (seq pk) [[:b {:order 1}] [:a {:order 2}] [:c {:order 3}]]))
 (assert (= (subseq pk > 1) '([:a {:order 2}] [:c {:order 3}])))
 (assert (= (rsubseq pk < 3) '([:a {:order 2}] [:b {:order 1}])))
+(assert (assoc (pm/priority-map-keyfn first :a [1] :b [1]) :a [2]))
 
 (def pkb (pm/priority-map-keyfn-by :order > :a {:order 2} :b {:order 1} :c {:order 3}))
 (assert (= (seq pkb) [[:c {:order 3}] [:a {:order 2}] [:b {:order 1}]]))
