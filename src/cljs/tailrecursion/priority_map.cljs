@@ -34,7 +34,7 @@
 
   IHash
   (-hash [this]
-    (coreclj/caching-hash this core/hash-imap __hash))
+    (coreclj/caching-hash this core/hash-unordered-coll __hash))
 
   ISeqable
   (-seq [this]
@@ -109,8 +109,8 @@
              nil)
             (PersistentPriorityMap.
              (assoc priority->set-of-items
-               current-priority (disj (get priority->set-of-items current-priority-key) item)
-               priority (conj (get priority->set-of-items priority-key #{}) item))
+                    current-priority-key (disj (get priority->set-of-items current-priority-key) item)
+                    priority-key (conj (get priority->set-of-items priority-key #{}) item))
              (assoc item->priority item priority)
              meta
              keyfn
