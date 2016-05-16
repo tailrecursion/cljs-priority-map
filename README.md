@@ -14,7 +14,7 @@ produces the entries sorted by value.
 Artifacts are published on [Clojars][4].
 
 ```clojure
-[tailrecursion/cljs-priority-map "1.1.0"]
+[tailrecursion/cljs-priority-map "1.2.0"]
 ```
 
 ```xml
