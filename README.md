@@ -31,7 +31,7 @@ Artifacts are published on [Clojars][4].
 ;; Require or use tailrecursion.priority-map in your namespace.
 
 (ns your-ns
-  (:require [tailrecursion.priority-map :refer [priority-map priority-map-by])))
+  (:require [tailrecursion.priority-map :refer [priority-map priority-map-by]])))
 
 ;; The standard way to construct a priority map is with priority-map:
 
