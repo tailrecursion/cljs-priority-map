@@ -1,7 +1,6 @@
 (ns tailrecursion.priority-map
   (:require [cljs.core :as core])
-  (:use [cljs.reader :only [register-tag-parser!
-                            reader-error]])
+  (:use [cljs.reader :only [register-tag-parser!]])
   (:require-macros [cljs.core :as coreclj]))
 
 (deftype PersistentPriorityMap [priority->set-of-items item->priority meta keyfn ^:mutable __hash]
@@ -183,7 +182,7 @@
 (defn- read-priority-map [elems]
   (if (map? elems)
     (into tailrecursion.priority-map.PersistentPriorityMap.EMPTY elems)
-    (reader-error nil "Priority map literal expects a map for its elements.")))
+    (throw (js/Error "Priority map literal expects a map for its elements."))))
 
 (register-tag-parser! "tailrecursion.priority-map" read-priority-map)
 
