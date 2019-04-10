@@ -1,4 +1,4 @@
 sudo: false
 language: clojure
-lein: lein2
-script: lein2 cljsbuild once test && test/run.sh
+lein: lein
+script: lein cljsbuild once test && test/run.sh
